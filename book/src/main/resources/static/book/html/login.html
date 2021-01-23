@@ -68,22 +68,23 @@
     <div class="login-bg" style="background-image: url(/img/lo.jpg)">
         <div class="login-cont w1200">
             <div class="form-box" style="height: 500px ; background-color: rgba(0,0,0.1,0.1) ">
-                <form class="layui-form" action="">
+                <form class="layui-form" action=""id="fromBtn">
                     <legend>欢迎登录</legend>
                     <div class="layui-form-item">
                         <div class="layui-inline iphone">
                             <div class="layui-input-inline">
                                 <i class="layui-icon layui-icon-cellphone iphone-icon"></i>
-                                <input type="tel" name="phone" id="phone" lay-verify="required" placeholder="请输入用户手机号"
+                                <input type="tel" name="loginnumber" lay-verify="required" placeholder="请输入用户手机号"
                                        autocomplete="off" class="layui-input">
                             </div>
                         </div>
 
                         <div class="layui-form-item input-item">
 
-                            <input type="password" placeholder="请输入密码" autocomplete="off" id="password"
+                            <input type="password" placeholder="请输入密码" autocomplete="off" name="password"
                                    class="layui-input" lay-verify="required">
                         </div>
+
                         <div class="layui-inline veri-code">
                             <div class="layui-input-inline" id="imgCode">
                                 <input id="pnum" type="text" name="pnum" lay-verify="required" placeholder="请输入验证码"
@@ -93,13 +94,21 @@
                                      style=" width: 88px;height: 37px; ">
                             </div>
                         </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block" id="ro">
+                                <input type="radio" name="role" value="1" title="管理员">
+                                <input type="radio" name="role" value="0" title="学生" checked>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="layui-form-item login-btn">
                         <div class="layui-input-block">
                            <a href="registered.html" class="layui-btn" lay-filter="zc" id="aaaa" style="width: 120px;font-size: small">注册</a>
-                            <button class="layui-btn" lay-filter="login" lay-submit style="width: 120px;font-size: small">学生登录</button>
+                            <button class="layui-btn" lay-filter="loginst" lay-submit style="width: 120px;font-size: small">学生登录</button>
                             <!--学生role=1-->
-                            <button class="layui-btn" lay-filter="login" lay-submit style="width: 120px;font-size: small">管理员登录</button>
+                            <button class="layui-btn" lay-filter="loginad" lay-submit style="width: 120px;font-size: small">管理员登录</button>
                             <!--管理员role=0-->
                         </div>
                     </div>
@@ -149,14 +158,15 @@
         })
 
 
-        //登录按钮
-        form.on("submit(login)", function (data) {
+        //学生
+        form.on("submit(loginst)", function (data) {
             var index = top.layer.msg('用户登陆审核中，请稍候', {icon: 16, time: false, shade: 0.8});
             //验证登录
             $.ajax({
                 type: "post",//传递参数post类型loginnumber
                 url: "http://localhost:80/yd/index/login",
-                data: {"loginnumber": $("#phone").val(), "password": $("#password").val(), "pnum": $("#pnum").val()},//提交的数据"password":$("#password").val()
+               // data: {"loginnumber": $("#phone").val(), "password": $("#password").val(), "pnum": $("#pnum").val(),"role":$("#ro").val()},//提交的数据"password":$("#password").val()
+                data: $('#fromBtn').serialize(),
                 dataType: "json",
                 success: function (data) {
                     //判断登陆是否成功惊进行跳转
@@ -182,7 +192,39 @@
 
             return false;
         })
+        //管理员
+        form.on("submit(loginad)", function (data) {
+            var index = top.layer.msg('用户登陆审核中，请稍候', {icon: 16, time: false, shade: 0.8});
+            //验证登录
+            $.ajax({
+                type: "post",//传递参数post类型loginnumber
+                url: "http://localhost:80/yd/index/login",
+                data: {"loginnumber": $("#phone").val(), "password": $("#password").val(), "pnum": $("#pnum").val(),"role":"1"},//提交的数据"password":$("#password").val()
+                dataType: "json",
+                success: function (data) {
+                    //判断登陆是否成功惊进行跳转
+                    if (data.code == 0) {
+                        setTimeout(function () {
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            window.setTimeout("window.location='http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/index.html'", 2000);
+                            /*window.location.href = "http://localhost:8080/test/layuiMaternalBabyMall-v1.0.0/html/index.html";*/
+                        }, 1000);
+                    } else {
+                        $("button").text("登录").removeAttr("disabled").removeClass("layui-disabled");
 
+                        layer.msg(data.msg, {
+                            time: 1500
+                        });
+
+                    }
+
+                }
+            })
+            //跳转
+
+            return false;
+        })
     })
 </script>
 

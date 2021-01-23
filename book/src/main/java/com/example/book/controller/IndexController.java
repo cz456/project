@@ -70,6 +70,7 @@ public class IndexController {
      */
     @RequestMapping("login")
     public JsonBean lodin(HttpServletRequest request, String loginnumber, String password, String pnum,String role) {
+        System.out.println(role+"========================"+loginnumber+password+pnum);
         HttpSession session = request.getSession();
         String sessioncode = (String) session.getAttribute("pnum");
         // 登陆判断是否为空
