@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情</title>
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery.params.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a href="index.html">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+            <div class="login"><span id="dl">登录</span><span id="uid" class="uid"></span></div>
+            <div class="sp-cart"><a href="shopcart.html">购物车</a></div>
+            <div class="sp-cart">&nbsp;&nbsp;<a href="shopdl.html" >我的订单</a></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="header">
+    <div class="headerLayout w1200">
+        <div class="headerCon">
+            <h1 class="mallLogo">
+                <a href="#" title="水果商城">
+                    <img style="height: 60px ;width: 90px" src="../res/static/img/sgxs.jpg">
+                </a>
+            </h1>
+            <div class="mallSearch" >
+                <div action="" >
+                    <input type="text"  style="border-style: solid;border-color:#5FB878; " id="ss" required lay-verify="required"
+                           class="layui-input" placeholder="请输入需要的商品">
+                    <button  id="sa" class="layui-btn" lay-filter="formDemo" >
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content content-nav-base datails-content">
+    <div class="main-nav">
+        <div class="inner-cont0">
+            <div class="inner-cont1 w1200">
+                <div class="inner-cont2">
+                    <a href="commodity.html" class="active">所有商品</a>
+                    <a href="buytoday.html">商品分类</a>
+                    <a href="information.html">水果资讯</a>
+                    <a href="about.html">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="data-cont-wrap w1200">
+        <div class="crumb">
+            <a href="javascript:;">首页</a>
+            <span>></span>
+            <a href="javascript:;">所有商品</a>
+            <span>></span>
+            <a href="javascript:;">产品详情</a>
+        </div>
+        <div class="product-intro layui-clear">
+            <div class="preview-wrap">
+                <a href="javascript:;"><img style="width: 350px; height: 350px" id="img" src=""></a>
+            </div>
+            <div class="itemInfo-wrap">
+                <div class="itemInfo">
+                    <div class="title">
+                        <h4 id="title"></h4>
+                        <span><i class="layui-icon layui-icon-rate-solid"></i>收藏</span>
+                    </div>
+                    <div class="summary">
+                        <p class="reference"><span>订单编号</span> <span id="dlmi"></span></p>
+
+                        <p class="activity"><span>活动价</span><strong class="price" id="price"><i>￥</i>99.00</strong></p>
+                        <p class="address-box">
+
+
+
+
+                        </p>
+                        <p class="reference"><span>介绍 </span><span id="jieshao"></span></p>
+
+                    </div>
+
+                    <div class="choose-attrs">
+
+                        <div class="number layui-clear"><span class="title">数&nbsp;&nbsp;&nbsp;&nbsp;量</span>
+                            <div class="number-cont"><span class="cut btn">-</span><input
+                                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                    maxlength="4" type="" name="" id="ds" value=""><span class="add btn">+</span></div>
+                        </div>
+                    </div>
+
+                    <form class="layui-form" lay-filter="formUser" id="userForm">
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">填写地址</label>
+                            <input type="hidden" name="addr" id="addr"/>
+                            <div class="layui-input-inline">
+                                <select id="province" lay-filter="province" required lay-verify="required">
+                                    <option value="">请选择省</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select id="city" lay-filter="city" required lay-verify="required">
+                                    <option value="">请选择市</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select id="area" required lay-verify="required">
+                                    <option value="">请选择县/区</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">小区/村</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="phone" id="xq" placeholder="请输入小区" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+
+
+                        <div class="choose-btns">
+                            <button type="reset" class="layui-btn layui-btn-primary purchase-btn">取消下单</button>
+                            <span class="layui-btn  layui-btn-danger car-btn" id="zc">提交订单</span>
+
+                        </div>
+                    </form>
+                    <div id="did" style="display: none"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    layui.config({
+        base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['mm', 'jquery', 'form'], function () {
+        var form = layui.form;
+        $ = layui.jquery;
+        var mm = layui.mm, $ = layui.$;
+        var cur = $('.number-cont input').val();
+
+        /*layui.use(['form','layer'], function(){
+            var form = layui.form,
+                $ = layui.jquery;*/
+
+        initProvince();
+
+        getData1();
+        $('#sa').click(function () {
+            window.location.href="http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
+
+        })
+        /*8888888888888888888888888888888888888888888888888888888888*/
+        function getData1() {
+            layui.$.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/users/getuserSession",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {//请求到后端，后端返回的内容
+                    /*alert(data.data.name);*/
+                $("#dl").text(data.data.username+"：已登录");
+
+                    $("#did").text(data.data.id);
+
+                }
+
+            })
+
+
+        }
+
+
+
+
+
+
+
+                    $("#dlmi").html(location.href.split("=")[1])
+
+                    $("#title").html(decodeURIComponent(location.href.split("=")[2],"utf-8"))
+
+                    $("#price").html(location.href.split("=")[3])
+
+                    $("#jieshao").html(decodeURIComponent(location.href.split("=")[6]))
+
+                    $("#img").attr("src", location.href.split("=")[4]);
+
+
+                    $("#ds").val(location.href.split("=")[5]);
+
+
+
+
+
+
+            $("#zc").click(function () {
+
+                //用户下单
+                var su = $('.number-cont input').val();
+                var c = $('#city').find("option:selected").text();
+                var p = $('#province').find("option:selected").text();
+                var a = $('#area').find("option:selected").text();
+                var xq = $('#xq').val();
+                var userid = $('#did').text();
+                //alert(userid)
+                layui.$.ajax({
+                    type: "post",//请求格式
+                    data: {"userid":userid,"did": $.query.get("did"), "sumber": su, "a": a, "c": c, "p": p, "addr": xq},
+                    url: "http://localhost:80/main/goods/order",//请求路径
+                    dataType: "json",//后端返回的数据格式
+                    success: function (data) {
+                        if (data.code == 0) {
+                             window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/shopdl.html";
+                         }else {
+                            window.location.href = location.href;
+                        }
+
+
+                    }
+                })
+            });
+
+
+
+
+        function initProvince() {
+            layui.$.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/users/getPro",//请求地址
+                dataType: "json",//返回数据格式
+                success: function (data) {//成功请求到后端，后端返回给前端内容data
+                    console.log(data)
+                    var str = "<option value=''>请选择省</option>";
+                    for (var i = 0; i < data.data.length; i++) {
+                        str += "<option value='" + data.data[i].provinceId + "'>" + data.data[i].provinceName + "</option>";
+                    }
+                    $('#province').html(str);
+                    form.render();
+                }
+            })
+        }
+
+        //监听省下拉菜单发生的改变并对城市下拉菜单进行赋值
+        form.on('select(province)', function (data) {
+            $.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/users/getCity",//请求地址
+                data: {"provinceid": data.value},
+                dataType: "json",//返回数据格式
+                success: function (data) {//成功请求到后端，后端返回给前端内容data
+                    var str = "<option value=''>请选择城市</option>";
+                    for (var i = 0; i < data.data.length; i++) {
+                        str += "<option value='" + data.data[i].cityId + "'>" + data.data[i].cityName + "</option>";
+                    }
+                    $('#city').html(str);
+                    $("#area").html("<option value=''>请选择</option>");
+                    form.render();
+                }
+            })
+        });
+
+        //监听城市下拉菜单发生的改变并对区/县下拉菜单进行赋值
+        form.on('select(city)', function (data) {
+            $.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/users/getArea",//请求地址
+                data: {"cityid": data.value},
+                dataType: "json",//返回数据格式
+                success: function (data) {//成功请求到后端，后端返回给前端内容data
+                    var str = "<option value=''>请选择区/县</option>";
+                    for (var i = 0; i < data.data.length; i++) {
+                        str += "<option value='" + data.data[i].areaId + "'>" + data.data[i].areaName + "</option>";
+                    }
+                    $('#area').html(str);
+                    form.render();
+                }
+            })
+        });
+
+
+        $('.number-cont .btn').on('click', function () {
+            if ($(this).hasClass('add')) {
+                cur++;
+
+            } else {
+                if (cur > 1) {
+                    cur--;
+                }
+            }
+            $('.number-cont input').val(cur)
+        })
+
+
+    });
+</script>
+
+
+</body>
+</html>

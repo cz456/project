@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>详情</title>
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery.params.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a href="index.html">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+            <div class="login"><span id="dl">登录</span><span id="uid" class="uid"></span></div>
+            <div class="sp-cart"><a href="shopcart.html">购物车</a></div>
+            <div class="sp-cart">&nbsp;&nbsp;<a href="shopdl.html" >我的订单</a></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="header">
+    <div class="headerLayout w1200">
+        <div class="headerCon">
+            <h1 class="mallLogo">
+                <a href="#" title="水果商城">
+                    <img style="height: 60px ;width: 90px" src="../res/static/img/sgxs.jpg">
+                </a>
+            </h1>
+            <div class="mallSearch" >
+                <div action="" >
+                    <input type="text"  style="border-style: solid;border-color:#5FB878; " id="ss" required lay-verify="required"
+                           class="layui-input" placeholder="请输入需要的商品">
+                    <button  id="sa" class="layui-btn" lay-filter="formDemo" >
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content content-nav-base datails-content">
+    <div class="main-nav">
+        <div class="inner-cont0">
+            <div class="inner-cont1 w1200">
+                <div class="inner-cont2">
+                    <a href="commodity.html" class="active">所有商品</a>
+                    <a href="buytoday.html">商品分类</a>
+                    <a href="information.html">水果资讯</a>
+                    <a href="about.html">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="data-cont-wrap w1200">
+        <div class="crumb">
+            <a href="javascript:;">首页</a>
+            <span>></span>
+            <a href="javascript:;">所有商品</a>
+            <span>></span>
+            <a href="javascript:;">产品详情</a>
+        </div>
+        <div class="product-intro layui-clear">
+            <div class="preview-wrap">
+                <a href="javascript:;"><img style="width: 350px; height: 350px" id="img" src=""></a>
+            </div>
+            <div class="itemInfo-wrap">
+                <div class="itemInfo">
+                    <div class="title">
+                        <h4 id="title"></h4>
+                        <span><i class="layui-icon layui-icon-rate-solid"></i>收藏</span>
+                    </div>
+                    <div class="summary">
+
+                        <p class="reference"><span>参考价</span>
+                            <del>999</del>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span> &nbsp 库存</span><span id="number">
+                        </p>
+                        <p class="activity"><span>活动价</span><strong class="price" id="price"><i>￥</i>99.00</strong></p>
+                        <p class="address-box"><span>商品编号</span><span id="id"></span>
+                        </p>
+
+                        <p class="reference"><span>介绍 </span><span id="ms"></span></p>
+
+
+                    </div>
+
+                    <div class="choose-attrs">
+
+                        <div class="number layui-clear"><span class="title">数&nbsp;&nbsp;&nbsp;&nbsp;量</span>
+                            <div class="number-cont"><span class="cut btn">-</span><input
+                                    onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                    onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                    maxlength="4" type="" name="" value="1"><span class="add btn">+</span></div>
+                        </div>
+                    </div>
+                    <div class="choose-btns">
+                      <!--  <button class="layui-btn layui-btn-primary purchase-btn">立刻购买</button>-->
+                        <button class="layui-btn  layui-btn-danger car-btn" id="zc"><i
+                                class="layui-icon layui-icon-cart-simple"></i>加入购物车
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+    <div class="commod-cont-wrap content content-nav-base commodity-content">
+        <div class="commod-cont w1200 layui-clear">
+
+            <div class="right-cont-wrap" style="width: 1241px">
+                <div style="height: 70px;text-align: center" >
+                    <h2 style="color: red">热销商品</h2>
+
+                </div>
+                <div class="right-cont">
+
+                    <div class="prod-number">
+                    </div>
+                    <div class="cont-list layui-clear" id="list-cont">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.config({
+        base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['mm', 'jquery'], function () {
+        var mm = layui.mm, $ = layui.$;
+        var cur = $('.number-cont input').val();
+
+        selectData();
+        selectData2();
+        $('#sa').click(function () {
+            window.location.href="http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
+
+        })
+        /*8888888888888888888888888888888888888888888888888888888888*/
+        function getData1() {
+            layui.$.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/users/getuserSession",
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {//请求到后端，后端返回的内容
+                    /*alert(data.data.name);*/
+                    $("#dl").text("已登录 当前用户：" + data.data.username);
+                    $("#uid").text(data.data.id);
+                }
+
+            })
+
+
+        }
+
+        function selectData() {
+            layui.$.ajax({
+                type: "post",//请求格式
+                data: {"goodsid": $.query.get("id")},
+                url: "http://localhost:80/main/goods/selectGoodsByid",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {//请求到后端，后端返回的内容
+                    $("#id").html(data.data.id)
+                    $("#title").html(data.data.goodsname)
+                    $("#ms").html(data.data.title)
+                    $("#price").html(data.data.price)
+                    $("#number").html(data.data.number)
+                    $("#img").attr("src", data.data.url);
+                    console.log(data.data)
+                    layui.use('element', function () {
+                        var element = layui.element;
+                        element.init();
+                    });
+                    getData1();
+                }
+
+            });
+
+
+        };
+        //添加购物车
+        $("#zc").click(function () {
+            var massid = document.getElementById("id").innerHTML
+            var su = $('.number-cont input').val();
+            //alert($("#uid").text())
+            layui.$.ajax({
+                type: "post",//请求格式
+                data: {"goodsid": massid, "number": su, "userid": $("#uid").text()},
+                url: "http://localhost:80/main/goods/addgoodsscar",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {
+                    if (data.code == 0) {
+                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/shopcart.html";
+                    }
+
+                }
+            })
+
+        });
+        function selectData2() {
+            layui.$.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/goods/getGoodsList",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {//请求到后端，后端返回的内容
+                    var dataObj = data.data; //返回的result为json格式的数据
+                    var url = "";
+                    var co = "";
+                    $.each(dataObj, function (index, item) {
+
+                        co += '<div class="item">' +
+                            '                                <div class="img" id=' + item.id + '>' +
+                            '                                <a href="javascript:;"><img style="height: 260px; width: 281px" id="url" src="' + item.url + '"></a>' +
+                            '                                </div>' +
+                            '                                <div class="text">' +
+                            '                                <p class="title" id="title"><img style="height: 25px;width: 50px" src=" /img/s.jpg">'+'&nbsp '+ item.goodsname + '</p>' +
+                            '                                <p class="price">' +
+                            '                                <span class="pri" id="price" style="font-size: large">￥' + item.price + '</span>' +
+                            '                                <span >元/500kg</span>' +
+                            '                                <span class="nub" id="ms"></span>' +
+                            '                                <span class="nub" id="ms"><button style=" margin-bottom:15px;float: right;" class="zc layui-btn  layui-btn-radius" id=' + item.id + '>查看详情</button></span>' +
+                            '                                </p>' +
+
+                            '                                </div>' +
+                            '                                </div>';
+
+
+                    });
+
+                    $("#list-cont").html(co);
+
+                    layui.use('element', function () {
+                        var element = layui.element;
+                        element.init();
+                    });
+
+                    $(".zc").click(function () {
+                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
+
+                    });
+
+
+                }
+
+
+            });
+
+
+        };
+
+        $('.number-cont .btn').on('click', function () {
+            if ($(this).hasClass('add')) {
+                cur++;
+
+            } else {
+                if (cur > 1) {
+                    cur--;
+                }
+            }
+            $('.number-cont input').val(cur)
+        })
+
+
+    });
+</script>
+
+
+</body>
+</html>

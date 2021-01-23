@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>所有商品展示</title>
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery.params.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a href="index.html">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+            <div class="login"><span id="dl">登录</span><span id="uid" class="uid"></span></div>
+            <div class="sp-cart"><a href="shopcart.html">购物车</a></div>
+            <div class="sp-cart">&nbsp;&nbsp;<a href="shopdl.html">我的订单</a></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="header">
+    <div class="headerLayout w1200">
+        <div class="headerCon">
+            <h1 class="mallLogo">
+                <a href="#" title="水果商城">
+                    <img style="height: 60px ;width: 90px" src="../res/static/img/sgxs.jpg">
+                </a>
+            </h1>
+            <div class="mallSearch" >
+                <div action="" >
+                    <input type="text"  style="border-style: solid;border-color:#5FB878; " id="ss" required lay-verify="required"
+                           class="layui-input" placeholder="请输入需要的商品">
+                    <button  id="sa" class="layui-btn" lay-filter="formDemo" >
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content content-nav-base commodity-content">
+    <div class="main-nav">
+        <div class="inner-cont0">
+            <div class="inner-cont1 w1200">
+                <div class="inner-cont2">
+                    <a href="commodity.html" class="active">所有商品</a>
+                    <a href="buytoday.html">商品分类</a>
+                    <a href="information.html">水果资讯</a>
+                    <a href="about.html">关于我们</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="commod-cont-wrap">
+        <div class="commod-cont w1200 layui-clear">
+            <!--<div class="left-nav">
+                <div class="title">sss</div>
+                <div class="list-box" >
+                    &lt;!&ndash;<dl>
+                        <dt>进口水果</dt>
+                        <dd><a href="javascript:;">苹果</a></dd>
+                        <dd><a href="javascript:;">香蕉</a></dd>
+                        <dd><a href="javascript:;">哈密瓜</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>本地水果</dt>
+                        <dd><a href="javascript:;">苹果</a></dd>
+                        <dd><a href="javascript:;">香蕉</a></dd>
+                        <dd><a href="javascript:;">哈密瓜</a></dd>
+                        <dd><a href="javascript:;">香蕉</a></dd>
+                        <dd><a href="javascript:;">哈密瓜</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>进口水果</dt>
+                        <dd><a href="javascript:;">苹果</a></dd>
+                        <dd><a href="javascript:;">香蕉</a></dd>
+                        <dd><a href="javascript:;">哈密瓜</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>进口水果</dt>
+                        <dd><a href="javascript:;">苹果</a></dd>
+                        <dd><a href="javascript:;">香蕉</a></dd>
+                        <dd><a href="javascript:;">哈密瓜</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>进口水果</dt>
+                        <dd><a href="javascript:;">苹果</a></dd>
+                        <dd><a href="javascript:;">香蕉</a></dd>
+                        <dd><a href="javascript:;">哈密瓜</a></dd>
+                    </dl>&ndash;&gt;
+                </div>
+            </div>-->
+            <div class="right-cont-wrap">
+                <div class="right-cont">
+                    <!--<div class="sort layui-clear">
+                        <a class="active" href="javascript:;" event='volume'>销量</a>
+                        <a href="javascript:;" event='price'>价格</a>
+                        <a href="javascript:;" event='newprod'>新品</a>
+                        <a href="javascript:;" event='collection'>收藏</a>
+                    </div>-->
+                    <div class="prod-number">
+                        <span style="color: red">每日最新水果，欢迎抢购!!!</span>
+                    </div>
+
+                    <div class="cont-list layui-clear" id="list-cont">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    layui.config({
+        base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['mm', 'laypage', 'jquery'], function () {
+
+        selectData();
+        var laypage = layui.laypage, $ = layui.$,
+            mm = layui.mm;
+        laypage.render({
+            elem: 'demo0'
+            , count: 100 //数据总数
+        });
+        $('#sa').click(function () {
+            window.location.href="http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
+
+        })
+        function getData1() {
+            layui.$.ajax({
+                type: "post",//请求格式
+                url: "http://localhost:80/main/users/getuserSession",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {//请求到后端，后端返回的内容
+                    /*$("#dl").text(data.data.username + "：已登录");*/
+
+                }
+
+            })
+        }
+
+        function selectData() {
+            // var goodsname = document.getElementById("goodsname").innerHTML;
+            //new String(goodsname,"utf-8")
+            //var goodsname = location.href.split("=")[1];
+
+            var perimeters = window.location.search;
+            var goodsname=decodeURI(perimeters.substr(1).split('=')[1])
+
+            // alert(goodsname);
+            layui.$.ajax({
+                type: "post",//请求格式
+                data: {"goodsname": goodsname},
+                url: "http://localhost:80/main/goods/selectGoodsname",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {//请求到后端，后端返回的内容
+
+                    var dataObj = data.data; //返回的result为json格式的数据
+                    var url = "";
+                    var co = "";
+                    $.each(dataObj, function (index, item) {
+
+                        co += '<div class="item">' +
+                            '                                <div class="img" id=' + item.id + '>' +
+                            '                                <a href="javascript:;"><img style="height: 260px; width: 281px" id="url" src="' + item.url + '"></a>' +
+                            '                                </div>' +
+                            '                                <div class="text">' +
+                            '                                <p class="title" id="title">' + item.goodsname + '</p>' +
+                            '                                <p class="price">' +
+                            '                                <span class="pri" id="price" style="font-size: large">￥' + item.price + '</span>' +
+                            '                                <span >元/500kg</span>' +
+                            '                                <span class="nub" id="ms"></span>' +
+
+                            '                                </p>' +
+                            '                                <button class="zc" id=' + item.id + '>查看详情</button>' +
+
+                            '                                </div>' +
+                            '                                </div>';
+
+
+                    });
+
+                    $("#list-cont").html(co);
+
+                    layui.use('element', function () {
+                        var element = layui.element;
+                        element.init();
+                    });
+
+                    $(".zc").click(function () {
+                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
+
+                    });
+
+
+                }
+
+
+            });
+
+
+        };
+
+        /*// 模版引擎导入
+          var html = demo.innerHTML;
+          var listCont = document.getElementById('list-cont');
+       /!* /!* console.log(layui.router("#/about.html"))*!/!*!/
+       layui.$.ajax({
+           type: "post",//请求格式
+           url: "http://localhost:8080/test/getList",//请求路径
+           dataType: "json",//后端返回的数据格式
+
+             success : function(res){
+                 var dataObj = res.data;
+                 console.log(res.data)
+
+            listCont.innerHTML = mm.renderHtml(html,dataObj)
+             },
+              error: function(res){
+                console.log(res);
+             }
+            })*/
+
+
+        $('.sort a').on('click', function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        })
+        $('.list-box dt').on('click', function () {
+            if ($(this).attr('off')) {
+                $(this).removeClass('active').siblings('dd').show()
+                $(this).attr('off', '')
+            } else {
+                $(this).addClass('active').siblings('dd').hide()
+                $(this).attr('off', true)
+            }
+        })
+
+    });
+</script>
+
+
+</body>
+</html>
