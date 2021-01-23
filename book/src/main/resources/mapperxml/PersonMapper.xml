@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.book.mapper.PersonMapper">
+  <resultMap id="BaseResultMap" type="com.example.book.domain.Person">
+    <!--@mbg.generated-->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="loginNumber" jdbcType="VARCHAR" property="loginnumber" />
+    <result column="passWord" jdbcType="VARCHAR" property="password" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+
+
+    <select id="selectByUserName" resultType="com.example.book.domain.Person">
+
+        select
+        *
+        from person
+        where loginnumber = #{loginnumber}
+
+    </select>
+</mapper>

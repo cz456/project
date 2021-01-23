@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery.params.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+
+<body class="childrenBody">
+
+<!--<div class="site-nav-bg">
+    <div class="site-nav w1200">
+        <p class="sn-back-home">
+            <i class="layui-icon layui-icon-home"></i>
+            <a href="index.html">首页</a>
+        </p>
+        <div class="sn-quick-menu">
+            <div class="login"><span id="dl">登录</span></div>
+            <div class="sp-cart"><a href="shopcart.html">购物车</a></div>
+        </div>
+    </div>
+</div>-->
+
+<div class="header">
+    <div class="headerLayout w1200">
+        <div class="headerCon">
+            <h1 class="mallLogo">
+                <a href="#" title="水果商城">
+                    <img style="height: 60px ;width: 90px" src="../res/static/img/sgxs.jpg">
+                </a>
+            </h1>
+            <div class="mallSearch">
+                <!--<form action="" class="layui-form" novalidate>
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                           class="layui-input" placeholder="请输入需要的商品">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">
+                        <i class="layui-icon layui-icon-search"></i>
+                    </button>
+                    <input type="hidden" name="" value="">
+                </form>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="content content-nav-base shopcart-content">
+    <div class="main-nav">
+        <div class="inner-cont0">
+            <div class="inner-cont1 w1200">
+                <div class="inner-cont2">
+                    <a href="inlist.html">所有商品信息</a>
+                    <a href="user.html">前台用户信息</a>
+                    <a href="admin.html">后台管理员信息</a>
+                    <a href="about.html">订单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="banner-bg w1200" style="background: #92B8B1">
+        <h3>我的订单</h3>
+        <p>进口苹果、香蕉3折起</p>
+    </div>-->
+</div>
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal add_btn">添加用户</a>
+            </div>
+        </form>
+    </blockquote>
+    <table id="userList" lay-filter="userList"></table>
+
+    <!--操作-->
+    <script type="text/html" id="userListBar">
+
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="usable">启用</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">禁用</a>
+    </script>
+</form>
+
+
+<script type="text/javascript">
+    layui.use(['form','layer','table','laytpl'],function(){
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            table = layui.table;
+
+        //用户列表
+        var tableIns = table.render({
+            elem: '#userList',
+            url : 'http://localhost:80/main/adm/adminlist',
+            cellMinWidth : 95,
+            page : true,
+            height : "full-125",
+            limits : [10,15,20,25],
+            limit : 20,
+            id : "userListTable",
+            cols : [[
+
+                {field: 'id', title: '编号', align:'center'},
+                {field: 'adminname', title: '登录名', align:'center'},
+                {field: 'bz', title: '用户状态',  align:'center',templet:function(d){
+                        return d.bz == "0" ? "启用" : "禁用";
+                    }},
+                {title: '操作', minWidth:175, templet:'#userListBar',fixed:"right",align:"center"}
+            ]]
+        });
+
+
+        //添加用户
+        function addUser(edit){
+            var index = layui.layer.open({
+                title : "添加用户",
+                type : 2,
+                content : "adminadd.html",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            })
+            layui.layer.full(index);
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+        }
+        $(".add_btn").click(function(){
+            addUser();
+        })
+
+
+
+        function delObj(id){
+            var index = top.layer.msg('商品删除中，请稍候', {icon: 16, time: false, shade: 0.8});
+
+            layui.$.ajax({
+                type: "post",//请求格式
+                data: {"id": id},
+                url: "http://localhost:80/main/adm/deladmin",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {
+                    if (data.code == 0) {
+
+                        setTimeout(function () {
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            window.setTimeout("window.location='http://localhost/main/layuiMaternalBabyMall-v1.0.0/html2/admin.html'", 2000);
+                        }, 2000);
+                    } else {
+                        top.layer.msg(data.msg);
+                    }
+
+                }
+            })
+        }
+
+        function add(id){
+            var index = top.layer.msg('用户启用中，请稍候', {icon: 16, time: false, shade: 0.8});
+
+            layui.$.ajax({
+                type: "post",//请求格式
+                data: {"id": id},
+                url: "http://localhost:80/main/adm/adadmin",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {
+                    if (data.code == 0) {
+
+                        setTimeout(function () {
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            window.setTimeout("window.location='http://localhost/main/layuiMaternalBabyMall-v1.0.0/html2/admin.html'", 2000);
+                        }, 2000);
+                    } else {
+                        top.layer.msg(data.msg);
+                    }
+
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //列表操作
+        table.on('tool(userList)', function(obj){
+            var layEvent = obj.event,
+                data = obj.data;
+
+            if(layEvent === 'edit'){ //编辑
+                updateObj(data.id)
+            }else if(layEvent === 'usable'){ //添加
+                add(data.id)
+            }else if(layEvent === 'del'){ //删除
+                delObj(data.id)
+            }
+        });
+
+    })
+</script>
+</body>
+</html>

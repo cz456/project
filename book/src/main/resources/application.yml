@@ -1,19 +1,19 @@
 server:
-  port: 81
+  port: 80
   servlet:
-    context-path: /book
+    context-path: /yd
 spring:
   application:
     name: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bs?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/book?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     username: root
     password: 1234
   thymeleaf:
     cache: true
 mybatis:
-  type-aliases-package: com.bs.test.domain
+  type-aliases-package: com.example.book.domain
   mapper-locations: classpath:mapperxml/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

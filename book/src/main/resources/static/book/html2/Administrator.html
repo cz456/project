@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body>
+
+
+
+
+
+<div class="content content-nav-base  login-content">
+
+    <div class="login-bg" style="background-image: url(/img/9329485_164517659000_2.jpg)">
+        <div class="login-cont w1200">
+            <div class="form-box" style="height: 500px ; background-color: rgba(0,0,0.1,0.1);>
+                <form class="layui-form" action="">
+                    <legend style="color: white">管理员登录</legend>
+                    <div class="layui-form-item">
+                        <div class="layui-inline iphone">
+                            <div class="layui-input-inline">
+                                <i class="layui-icon layui-icon-cellphone iphone-icon"></i>
+                                <input type="tel" name="phone" id="phone" lay-verify="required" placeholder="请输入登录名"
+                                       autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item input-item">
+
+                            <input type="password" placeholder="请输入密码" autocomplete="off" id="password"
+                                   class="layui-input" lay-verify="required">
+                        </div>
+                        <div class="layui-inline veri-code">
+                            <div class="layui-input-inline" id="imgCode">
+                                <input id="pnum" type="text" name="pnum" lay-verify="required" placeholder="请输入验证码"
+                                       autocomplete="off" class="layui-input">
+
+                                <img id="getImg" src="http://localhost:80/main/index/code" alt="点击切换验证码"
+                                     style=" width: 88px;height: 37px; ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item login-btn">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-filter="login" lay-submit style="width: 120px">登录</button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="ng-promise-box">
+        <div class="ng-promise w1200">
+            <p class="text">
+                <a class="icon1" href="javascript:;">7天无理由退换货</a>
+                <a class="icon2" href="javascript:;">满99元全场免邮</a>
+                <a class="icon3" style="margin-right: 0" href="javascript:;">100%品质保证</a>
+            </p>
+        </div>
+    </div>
+    <div class="mod_help w1200">
+        <p>
+            <a href="javascript:;">关于我们</a>
+            <span>|</span>
+            <a href="javascript:;">帮助中心</a>
+            <span>|</span>
+            <a href="javascript:;">售后服务</a>
+            <span>|</span>
+            <a href="javascript:;">水果资讯</a>
+            <span>|</span>
+            <a href="javascript:;">关于货源</a>
+        </p>
+        <p class="coty">水果商城版权所有 &copy; 2012-2020</p>
+    </div>
+</div>
+<script type="text/javascript">
+    layui.config({
+        base: '../res/static/js/util' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['jquery', 'form'], function () {
+        var $ = layui.$, form = layui.form;
+        //验证码刷新
+        $('#imgCode').click(function () {
+            $('#getImg').attr("src", "http://localhost:80/main/adm/code?v=" + Math.random());
+        })
+
+
+        //登录按钮
+        form.on("submit(login)", function (data) {
+            var index = top.layer.msg('管理员登录中，请稍候', {icon: 16, time: false, shade: 0.8});
+            //验证登录
+            $.ajax({
+                type: "post",//传递参数post类型
+                url: "http://localhost:80/main/adm/login",
+                data: {"adminname": $("#phone").val(), "password": $("#password").val(), "pnum": $("#pnum").val()},//提交的数据"password":$("#password").val()
+                dataType: "json",
+                success: function (data) {
+                    //判断登陆是否成功惊进行跳转
+                    if (data.code == 0) {
+                        setTimeout(function () {
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            window.setTimeout("window.location='http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html2/inlist.html'", 2000);
+                            /*window.location.href = "http://localhost:8080/test/layuiMaternalBabyMall-v1.0.0/html/index.html";*/
+                        }, 1000);
+                    } else {
+                        $("button").text("登录").removeAttr("disabled").removeClass("layui-disabled");
+
+                        layer.msg(data.msg, {
+                            time: 1500
+                        });
+                    }
+
+                }
+            })
+            //跳转
+
+            return false;
+        })
+
+
+        $("#find").click(function () {
+            if (!/^1\d{10}$/.test($("#phone").val())) {
+                layer.msg("请输入正确的手机号");
+                return false;
+            }
+            var obj = this;
+            $.ajax({
+                type: "get",
+                url: "../json/login.json",
+                dataType: "json",//返回的
+                success: function (data) {
+
+                    if (data.result) {
+                        $("#find").addClass(" layui-btn-disabled");
+                        $('#find').attr('disabled', "true");
+                        settime(obj);
+                        $("#msg").text(data.msg);
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            });
+        })
+        var countdown = 60;
+
+        function settime(obj) {
+            if (countdown == 0) {
+                obj.removeAttribute("disabled");
+                obj.classList.remove("layui-btn-disabled")
+                obj.value = "获取验证码";
+                countdown = 60;
+                return;
+            } else {
+
+                obj.value = "重新发送(" + countdown + ")";
+                countdown--;
+            }
+            setTimeout(function () {
+                    settime(obj)
+                }
+                , 1000)
+        }
+    })
+</script>
+
+</body>
+</html>

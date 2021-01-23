@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../res/layui/jquery.params.js"></script>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="fromBtn" style="width:80%;" lay-filter="formFilter">
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-block">
+            <input type="hidden" name="id" class="id" id="id" value=""/>
+            <input type="text" name="goodsname" class="layui-input title" lay-verify="required" placeholder="请输入商品名称">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">商品标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" class="layui-input href" lay-verify="required" placeholder="请输入商品标题">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">图片路径</label>
+        <div class="layui-input-block">
+            <input type="text" name="url" class="layui-input href" lay-verify="required" placeholder="请输入图片路径">
+        </div>
+    </div><div class="layui-form-item layui-row layui-col-xs12">
+    <label class="layui-form-label">商品价格</label>
+    <div class="layui-input-block">
+        <input type="text" name="price" class="layui-input href" lay-verify="required" placeholder="请输入商品价格">
+    </div>
+</div><div class="layui-form-item layui-row layui-col-xs12">
+    <label class="layui-form-label">商品介绍</label>
+    <div class="layui-input-block">
+        <input type="text" name="details" class="layui-input href" lay-verify="required" placeholder="请输入商品介绍径">
+    </div>
+</div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">商品数量</label>
+        <div class="layui-input-block">
+            <input type="text" name="number" class="layui-input href" lay-verify="required" placeholder="请输入商品数量">
+        </div>
+    </div>
+
+    <div class="layui-row">
+        <div class="magb15 layui-col-md4 layui-col-xs12">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block status">
+                <input type="radio" name="status" value="1" title="禁用">
+                <input type="radio" name="status" value="0" title="启用">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addObj">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use(['form','layer'],function(){
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery;
+        selectData();
+
+        function selectData(){
+            var id = location.href.split("=")[1];
+
+            $.ajax({
+                type:"post",
+                url: "http://localhost:80/main/goods/selectGoodsByid",//请求路径
+                data:{"goodsid":id},
+                dataType:"json",
+
+                success:function(data){
+                    form.val("formFilter",{
+                        "id":data.data.id,
+                        "title":data.data.title,
+                        "goodsname":data.data.goodsname,
+                        "details":data.data.details,
+                        "price":data.data.price,
+                        "url":data.data.url,
+                        "number":data.data.number,
+                        "status":data.data.status,
+
+                    });
+                    form.render();
+                }
+            })
+        }
+
+
+
+
+        form.on("submit(addObj)",function(data){
+            //弹出loading
+            var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+            $.ajax({
+                type:"post",
+                url:"http://localhost:80/main/goods/updateGoodsByid",
+                data:$('#fromBtn').serialize(),//form.val("filter")//$('#fromBtn').serialize()
+                dataType:"json",
+                success:function(data){
+                    if(data.code==0){
+                        setTimeout(function(){
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            layer.closeAll("iframe");
+                            //刷新父页面
+                            parent.location.reload();
+                        },2000);
+                    }else{
+                        top.layer.msg(data.msg);
+                    }
+
+                }
+
+            })
+
+
+            return false;
+        })
+
+        //格式化时间
+        function filterTime(val){
+            if(val < 10){
+                return "0" + val;
+            }else{
+                return val;
+            }
+        }
+        //定时发布
+        var time = new Date();
+        var submitTime = time.getFullYear()+'-'+filterTime(time.getMonth()+1)+'-'+filterTime(time.getDate())+' '+filterTime(time.getHours())+':'+filterTime(time.getMinutes())+':'+filterTime(time.getSeconds());
+
+    })
+</script>
+</body>
+</html>
