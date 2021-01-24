@@ -1207,11 +1207,11 @@ i {
 .login-content .login-bg {
     width: 100%;
     /*background: url(../img/s.jpg) no-repeat;*/
-    background-size: cover;
+    /*background-size: cover;*/
 }
 
 .login-content .login-bg .login-cont {
-    height: 772px;
+    height: 655px;
     position: relative;
 }
 
@@ -1221,7 +1221,7 @@ i {
     border: 1px solid #d9dadc;
     background: #fff;
     position: absolute;
-    top: 196px;
+    top: 50px;
     right: 90px;
     padding: 0 30px;
 }

@@ -3,9 +3,11 @@ package com.example.book.controller;
 
 import com.example.book.common.Code;
 import com.example.book.common.JsonBean;
+import com.example.book.domain.Person;
 import com.example.book.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
@@ -38,26 +40,12 @@ public class IndexController {
         JsonBean jsonBean = new JsonBean(0, "ok", user);
         return jsonBean;
     }*/
-    /*@ResponseBody
+    @ResponseBody
     @RequestMapping("registered")
-    public JsonBean insertSysUser(Users users) {
-        JsonBean jsonBean = new JsonBean(-1, "用户注册失败", 1);
-
-        JsonBean jsonBean1 = usersService.selectUserByphone(users.getPhone());
-        if (jsonBean1.getCode() == 0) {
-            users.setStatus("0");
-            int insert = usersService.insert(users);
-            if (insert > 0) {
-                jsonBean = new JsonBean(0, "用户注册成功，请重新登录", 1);
-            }
-        }else {
-            jsonBean = new JsonBean(-1, "手机号已注册", 1);
-        }
-        System.out.println(users);
-        System.out.println(users.getPhone());
-
-        return jsonBean;
-    }*/
+    public JsonBean insertSysUser(Person person) {
+        JsonBean registered = personService.registered(person);
+        return registered;
+    }
 
     /**
      * 用户登录
@@ -73,17 +61,7 @@ public class IndexController {
         System.out.println(role+"========================"+loginnumber+password+pnum);
         HttpSession session = request.getSession();
         String sessioncode = (String) session.getAttribute("pnum");
-        // 登陆判断是否为空
-        System.out.println(password + loginnumber + pnum);
-        if (loginnumber == null || loginnumber.equals("") || password == null
-                || password.equals("") || pnum == null || pnum.equals("")) {
-            return new JsonBean(-2, "请正确填写", null);
-        }
-        // 判断验证码是否正确
-        if (!sessioncode.equalsIgnoreCase(pnum)) {
-            return new JsonBean(-1, "验证码错误", null);
-        }
-        JsonBean jsonBean = personService.selectUserByUsername(loginnumber, password);
+        JsonBean jsonBean = personService.selectPerson(loginnumber, password,sessioncode,pnum,role);
         if (jsonBean.getCode() == 0) {
             session.setAttribute("Users", jsonBean.getData());
             /*jsonBean.setData(null);*/

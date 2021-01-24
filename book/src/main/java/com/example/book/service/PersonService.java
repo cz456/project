@@ -2,15 +2,24 @@ package com.example.book.service;
 
 import com.example.book.common.JsonBean;
 import com.example.book.domain.Person;
-public interface PersonService{
+
+public interface PersonService {
 
     /**
-     * 登录查询
-     *
-     * @param phone
+     * 用户注册
+     * @param loginnumber
      * @param password
+     * @param sessioncode
+     * @param pnum
+     * @param role
      * @return
      */
-    JsonBean selectUserByUsername(String phone, String password);
+    JsonBean selectPerson(String loginnumber, String password, String sessioncode, String pnum, String role);
 
+    /**
+     * 人员
+     * @param person
+     * @return
+     */
+    JsonBean registered(Person person);
 }
