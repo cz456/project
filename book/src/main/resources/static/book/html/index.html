@@ -245,10 +245,7 @@
                 url: "http://localhost:80/main/users/getuserSession",//请求路径
                 dataType: "json",//后端返回的数据格式
                 success: function (data) {//请求到后端，后端返回的内容
-
-
                     $("#dl").text("已登录 当前用户：" + data.data.username);
-
                 }
 
             })
