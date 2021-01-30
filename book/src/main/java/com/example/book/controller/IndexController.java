@@ -33,14 +33,13 @@ public class IndexController {
      * @param
      * @return
      */
-/*
     @RequestMapping("getuserSession")
     public JsonBean getuserSession(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Users user = (Users) session.getAttribute("Users");
-        JsonBean jsonBean = new JsonBean(0, "ok", user);
+        Person person = (Person) session.getAttribute("Person");
+        JsonBean jsonBean = new JsonBean(0, "ok", person);
         return jsonBean;
-    }*/
+    }
     @ResponseBody
     @RequestMapping("registered")
     public JsonBean insertSysUser(Person person) {

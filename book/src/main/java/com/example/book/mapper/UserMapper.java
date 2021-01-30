@@ -1,7 +1,11 @@
 package com.example.book.mapper;
 
 import com.example.book.domain.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+@Mapper
+@Repository
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 

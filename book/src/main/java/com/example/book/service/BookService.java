@@ -1,19 +1,29 @@
 package com.example.book.service;
 
+import com.example.book.common.JsonBean;
+import com.example.book.common.PageRequest;
+import com.example.book.common.PageResult;
 import com.example.book.domain.Book;
+
+import java.util.List;
+
 public interface BookService{
 
 
-    int deleteByPrimaryKey(Integer id);
+    JsonBean deleteByPrimaryKey(Integer id);
 
-    int insert(Book record);
+    JsonBean insert(Book record);
 
     int insertSelective(Book record);
 
-    Book selectByPrimaryKey(Integer id);
+    JsonBean selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Book record);
 
-    int updateByPrimaryKey(Book record);
+    JsonBean updateByPrimaryKey(Book record);
+
+    JsonBean selectAll();
+
+    PageResult findPage(PageRequest pageRequest);
 
 }

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
+    <script type="text/javascript" src="../res/layui/layui.js"></script>
+</head>
+<body>
+<table id="userList" lay-filter="userList"></table>
+</body>
+<script type="text/javascript">
+    layui.config({
+        base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+    }).use(['form','layer','table','laytpl','mm', 'laypage', 'jquery'], function () {
+
+        var laypage = layui.laypage,
+            mm = layui.mm;
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            table = layui.table;
+
+        //用户列表
+        var tableIns = table.render({
+            elem: '#userList',
+            url : 'http://localhost:80/yd/book/findBookList',
+            cellMinWidth : 95,
+            page : true,
+            height : "full-125",
+            limits : [10,15,20,25],
+            limit : 10,
+            id : "userListTable",
+            cols : [[
+                {field: 'id', title: '编号', align:'center'},
+                {field: 'url', title: '图片', align:'center' ,templet: '<div><img src="{{d.url}}" style="width:30px; height:30px;"></div>'},
+                {field: 'booksname', title: '商品名字', align:'center'}
+            ]]
+        });
+
+
+        //添加用户
+        function addUser(edit){
+            var index = layui.layer.open({
+                title : "添加用户",
+                type : 2,
+                content : "goodsadd.html",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            })
+            layui.layer.full(index);
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+        }
+        $(".add_btn").click(function(){
+            addUser();
+        })
+
+        function updateObj(id){
+            var index = layui.layer.open({
+                title : "修改",
+                type : 2,
+                content : "goodsupd.html?id="+id,
+                success : function(layero, index){
+
+                }
+            })
+            setTimeout(function(){
+                layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                    tips: 3
+                });
+            },500)
+
+            layui.layer.full(index);
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+        }
+
+
+
+
+
+
+
+
+
+        function delObj(id){
+            var index = top.layer.msg('商品删除中，请稍候', {icon: 16, time: false, shade: 0.8});
+
+            layui.$.ajax({
+                type: "post",//请求格式
+                data: {"id": id},
+                url: "http://localhost:80/main/goods/delGoods",//请求路径
+                dataType: "json",//后端返回的数据格式
+                success: function (data) {
+                    if (data.code == 0) {
+
+                        setTimeout(function () {
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            window.setTimeout("window.location='http://localhost/main/layuiMaternalBabyMall-v1.0.0/html2/inlist.html'", 2000);
+                        }, 2000);
+                    } else {
+                        top.layer.msg(data.msg);
+                    }
+
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //列表操作
+        table.on('tool(userList)', function(obj){
+            var layEvent = obj.event,
+                data = obj.data;
+
+            if(layEvent === 'usable'){ //编辑
+                updateObj(data.id);
+                layer.confirm(usableText,{
+                    icon: 3,
+                    title:'系统提示',
+                    cancel : function(index){
+                        layer.close(index);
+                    }
+                },function(index){
+                    _this.text(btnText);
+                    layer.close(index);
+                },function(index){
+                    layer.close(index);
+                });
+            }else if(layEvent === 'del'){ //删除
+                delObj(data.id)
+            }
+        });
+
+    })
+
+
+</script>
+</html>

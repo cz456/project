@@ -18,13 +18,15 @@ public class BookdetailsController {
     private BookService bookService;
 
     @RequestMapping("findBookList")
-    public JsonBean findBookList() {
+    public JsonBean findBookdetailsList() {
         return null;
     }
+
     @RequestMapping("findBookObj")
-    public JsonBean findBookObj() {
+    public JsonBean finBookdetailsObj() {
         return null;
     }
+
     @RequestMapping("findBookWhere")
     public JsonBean findBookWhere() {
         return null;

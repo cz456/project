@@ -1,7 +1,13 @@
 package com.example.book.mapper;
 
 import com.example.book.domain.Book;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Mapper
+@Repository
 public interface BookMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +20,8 @@ public interface BookMapper {
     int updateByPrimaryKeySelective(Book record);
 
     int updateByPrimaryKey(Book record);
+
+    List<Book> selectAll();
+
+    List<Book> selectPage();
 }
