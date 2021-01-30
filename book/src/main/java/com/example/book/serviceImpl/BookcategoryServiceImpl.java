@@ -1,5 +1,6 @@
 package com.example.book.serviceImpl;
 
+import com.example.book.common.JsonBean;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.book.domain.Bookcategory;
@@ -39,6 +40,11 @@ public class BookcategoryServiceImpl implements BookcategoryService{
     @Override
     public int updateByPrimaryKey(Bookcategory record) {
         return bookcategoryMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public JsonBean selectAll() {
+        return new JsonBean(1,"",bookcategoryMapper.selectAll());
     }
 
 }

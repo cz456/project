@@ -66,35 +66,16 @@
     </div>
 
 
-    <img style="height: 380px ;width: 100%" src="../res/static/img/11.png">
-    <div class="commod-cont-wrap">
-        <div class="commod-cont w1200 layui-clear">
+    <!--<img style="height: 380px ;width: 100%" src="../res/static/img/11.png">-->
 
-            <div class="right-cont-wrap" style="width: 1241px">
-                <div style="height: 70px;text-align: center" >
-                    <h2 style="">所有商品</h2>
-
-                </div>
-                <div class="right-cont">
-
-                    <div class="prod-number">
-                    </div>
-                    <div class="cont-list layui-clear" id="list-cont">
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <table id="userList" lay-filter="userList"></table>
 </div>
-<script>
-
+</body>
+<script type="text/javascript">
     layui.config({
         base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
-    }).use(['mm', 'laypage', 'jquery'], function () {
-        //getData1();
-        //selectData();
+    }).use(['form','layer','table','laytpl','mm', 'laypage', 'jquery'], function () {
+
         var laypage = layui.laypage,
             mm = layui.mm;
         var form = layui.form,
@@ -116,109 +97,131 @@
             cols : [[
                 {field: 'id', title: '编号', align:'center'},
                 {field: 'url', title: '图片', align:'center' ,templet: '<div><img src="{{d.url}}" style="width:30px; height:30px;"></div>'},
-                {field: 'booksname', title: '商品名字', align:'center'}
+                {field: 'bookname', title: '商品名字', align:'center'}
             ]]
         });
-        function getData1() {
-            layui.$.ajax({
-                type: "post",//请求格式
-                url:"http://localhost:80/main/users/getuserSession",//请求路径
-                dataType: "json",//后端返回的数据格式
-                success: function (data) {//请求到后端，后端返回的内容
-                    $("#dl").text(data.data.username + "：已登录");
+
+
+        //添加用户
+        function addUser(edit){
+            var index = layui.layer.open({
+                title : "添加用户",
+                type : 2,
+                content : "goodsadd.html",
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500)
+                }
+            })
+            layui.layer.full(index);
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
+            })
+        }
+        $(".add_btn").click(function(){
+            addUser();
+        })
+
+        function updateObj(id){
+            var index = layui.layer.open({
+                title : "修改",
+                type : 2,
+                content : "goodsupd.html?id="+id,
+                success : function(layero, index){
 
                 }
+            })
+            setTimeout(function(){
+                layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                    tips: 3
+                });
+            },500)
 
+            layui.layer.full(index);
+            window.sessionStorage.setItem("index",index);
+            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            $(window).on("resize",function(){
+                layui.layer.full(window.sessionStorage.getItem("index"));
             })
         }
 
-        function selectData() {
+
+
+
+
+
+
+
+
+        function delObj(id){
+            var index = top.layer.msg('商品删除中，请稍候', {icon: 16, time: false, shade: 0.8});
+
             layui.$.ajax({
                 type: "post",//请求格式
-                url: "http://localhost:80/main/goods/getGoodsList",//请求路径
+                data: {"id": id},
+                url: "http://localhost:80/main/goods/delGoods",//请求路径
                 dataType: "json",//后端返回的数据格式
-                success: function (data) {//请求到后端，后端返回的内容
-                    var dataObj = data.data; //返回的result为json格式的数据
-                    var url = "";
-                    var co = "";
-                    $.each(dataObj, function (index, item) {
+                success: function (data) {
+                    if (data.code == 0) {
 
-                        co += '<div class="item">' +
-                            '                                <div class="img" id=' + item.id + '>' +
-                            '                                <a href="javascript:;"><img style="height: 260px; width: 281px" id="url" src="' + item.url + '"></a>' +
-                            '                                </div>' +
-                            '                                <div class="text">' +
-                            '                                <p class="title" id="title"><img style="height: 25px;width: 50px" src=" /img/s.jpg">'+'&nbsp '+ item.goodsname + '</p>' +
-                            '                                <p class="price">' +
-                            '                                <span class="pri" id="price" style="font-size: large">￥' + item.price + '</span>' +
-                            '                                <span >元/500kg</span>' +
-                            '                                <span class="nub" id="ms"></span>' +
-                            '                                <span class="nub" id="ms"><button style=" margin-bottom:15px;float: right;" class="zc layui-btn  layui-btn-radius" id=' + item.id + '>查看详情</button></span>' +
-                            '                                </p>' +
-
-                            '                                </div>' +
-                            '                                </div>';
-
-
-                    });
-
-                    $("#list-cont").html(co);
-
-                    layui.use('element', function () {
-                        var element = layui.element;
-                        element.init();
-                    });
-
-                    $(".zc").click(function () {
-                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
-
-                    });
-
+                        setTimeout(function () {
+                            top.layer.close(index);
+                            top.layer.msg(data.msg);
+                            window.setTimeout("window.location='http://localhost/main/layuiMaternalBabyMall-v1.0.0/html2/inlist.html'", 2000);
+                        }, 2000);
+                    } else {
+                        top.layer.msg(data.msg);
+                    }
 
                 }
+            })
+        }
 
 
-            });
 
 
-        };
-
-        /*// 模版引擎导入
-          var html = demo.innerHTML;
-          var listCont = document.getElementById('list-cont');
-       /!* /!* console.log(layui.router("#/about.html"))*!/!*!/
-       layui.$.ajax({
-           type: "post",//请求格式
-           url: "http://localhost:8080/test/getList",//请求路径
-           dataType: "json",//后端返回的数据格式
-
-             success : function(res){
-                 var dataObj = res.data;
-                 console.log(res.data)
-
-            listCont.innerHTML = mm.renderHtml(html,dataObj)
-             },
-              error: function(res){
-                console.log(res);
-             }
-            })*/
 
 
-        $('.sort a').on('click', function () {
-            $(this).addClass('active').siblings().removeClass('active');
-        })
-        $('.list-box dt').on('click', function () {
-            if ($(this).attr('off')) {
-                $(this).removeClass('active').siblings('dd').show()
-                $(this).attr('off', '')
-            } else {
-                $(this).addClass('active').siblings('dd').hide()
-                $(this).attr('off', true)
+
+
+
+
+
+
+
+
+
+        //列表操作
+        table.on('tool(userList)', function(obj){
+            var layEvent = obj.event,
+                data = obj.data;
+
+            if(layEvent === 'usable'){ //编辑
+                updateObj(data.id);
+                layer.confirm(usableText,{
+                    icon: 3,
+                    title:'系统提示',
+                    cancel : function(index){
+                        layer.close(index);
+                    }
+                },function(index){
+                    _this.text(btnText);
+                    layer.close(index);
+                },function(index){
+                    layer.close(index);
+                });
+            }else if(layEvent === 'del'){ //删除
+                delObj(data.id)
             }
-        })
+        });
 
-    });
+    })
+
+
 </script>
-
-</body>
 </html>

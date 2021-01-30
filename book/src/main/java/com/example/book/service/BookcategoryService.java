@@ -1,5 +1,6 @@
 package com.example.book.service;
 
+import com.example.book.common.JsonBean;
 import com.example.book.domain.Bookcategory;
 public interface BookcategoryService{
 
@@ -15,5 +16,5 @@ public interface BookcategoryService{
     int updateByPrimaryKeySelective(Bookcategory record);
 
     int updateByPrimaryKey(Bookcategory record);
-
+    JsonBean selectAll();
 }

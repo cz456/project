@@ -2,6 +2,7 @@ package com.example.book.controller;
 
 import com.example.book.common.JsonBean;
 import com.example.book.service.BookService;
+import com.example.book.service.BookcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("bookdetails")
 public class BookdetailsController {
     @Autowired
-    private BookService bookService;
+    private BookcategoryService bookcategoryService;
 
-    @RequestMapping("findBookList")
-    public JsonBean findBookdetailsList() {
-        return null;
+    @RequestMapping("bookcategoryList")
+    public JsonBean bookcategoryList() {
+        return bookcategoryService.selectAll();
     }
 
     @RequestMapping("findBookObj")
