@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.book.mapper.BookMapper">
+  <resultMap id="BaseResultMap" type="com.example.book.domain.Book">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bookName" jdbcType="VARCHAR" property="bookname" />
+    <result column="rent" jdbcType="DOUBLE" property="rent" />
+    <result column="bookNumber" jdbcType="INTEGER" property="booknumber" />
+    <result column="kinds" jdbcType="VARCHAR" property="kinds" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="urls" jdbcType="VARCHAR" property="urls" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, bookName, rent, bookNumber, kinds, introduction, author, url, urls
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.book.domain.Book" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into book (bookName, rent, bookNumber, 
+      kinds, introduction, author, 
+      url, urls)
+    values (#{bookname,jdbcType=VARCHAR}, #{rent,jdbcType=DOUBLE}, #{booknumber,jdbcType=INTEGER}, 
+      #{kinds,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{urls,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.book.domain.Book" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into book
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bookname != null">
+        bookName,
+      </if>
+      <if test="rent != null">
+        rent,
+      </if>
+      <if test="booknumber != null">
+        bookNumber,
+      </if>
+      <if test="kinds != null">
+        kinds,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="urls != null">
+        urls,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bookname != null">
+        #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="rent != null">
+        #{rent,jdbcType=DOUBLE},
+      </if>
+      <if test="booknumber != null">
+        #{booknumber,jdbcType=INTEGER},
+      </if>
+      <if test="kinds != null">
+        #{kinds,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="urls != null">
+        #{urls,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.book.domain.Book">
+    <!--@mbg.generated-->
+    update book
+    <set>
+      <if test="bookname != null">
+        bookName = #{bookname,jdbcType=VARCHAR},
+      </if>
+      <if test="rent != null">
+        rent = #{rent,jdbcType=DOUBLE},
+      </if>
+      <if test="booknumber != null">
+        bookNumber = #{booknumber,jdbcType=INTEGER},
+      </if>
+      <if test="kinds != null">
+        kinds = #{kinds,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="urls != null">
+        urls = #{urls,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.book.domain.Book">
+    <!--@mbg.generated-->
+    update book
+    set bookName = #{bookname,jdbcType=VARCHAR},
+      rent = #{rent,jdbcType=DOUBLE},
+      bookNumber = #{booknumber,jdbcType=INTEGER},
+      kinds = #{kinds,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      urls = #{urls,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
