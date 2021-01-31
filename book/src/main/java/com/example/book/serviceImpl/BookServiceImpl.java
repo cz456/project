@@ -83,6 +83,11 @@ public class BookServiceImpl implements BookService {
         return PageUtils.getPageResult(pageRequest, getPageInfo(pageRequest));
     }
 
+    @Override
+    public JsonBean selectWherekinds(String Kinds) {
+        return new JsonBean(0,"",bookMapper.selectWherekinds(Kinds));
+    }
+
     /**
      * 调用分页插件完成分页
      * @param

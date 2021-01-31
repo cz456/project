@@ -136,7 +136,7 @@
 
                         var tableIns = table.render({
                             elem: '#userList',
-                            url : 'http://localhost:80/yd/book/findBookList',
+                            url : 'http://localhost:80/yd/book/findBookWherekinds?kinds=' + $(this).attr("bookcode"),
                             cellMinWidth : 95,
                             page : true,
                             height : "full-125",

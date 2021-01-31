@@ -36,9 +36,9 @@ public class BookController {
         return bookService.selectByPrimaryKey(id);
     }
 
-    @RequestMapping("findBookWhere")
-    public JsonBean findBookWhere() {
-        return null;
+    @RequestMapping("findBookWherekinds")
+    public JsonBean findBookWhere(String kinds) {
+        return bookService.selectWherekinds(kinds);
     }
 
     @RequestMapping("addBookObj")
@@ -61,4 +61,5 @@ public class BookController {
 
         return bookService.findPage(pageQuery);
     }
+
 }

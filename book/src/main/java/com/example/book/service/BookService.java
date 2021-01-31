@@ -7,7 +7,7 @@ import com.example.book.domain.Book;
 
 import java.util.List;
 
-public interface BookService{
+public interface BookService {
 
 
     JsonBean deleteByPrimaryKey(Integer id);
@@ -26,4 +26,5 @@ public interface BookService{
 
     PageResult findPage(PageRequest pageRequest);
 
+    JsonBean selectWherekinds(String Kinds);
 }
