@@ -112,14 +112,14 @@
         function selectData2() {
             layui.$.ajax({
                 type: "post",//请求格式
-                url: "http://localhost:80/yd/bookdetails/bookcategoryList",//请求路径
+                url: "http://localhost:80/yd/bookcategory/bookcategoryList",//请求路径
                 dataType: "json",//后端返回的数据格式
                 success: function (data) {//请求到后端，后端返回的内容
                     var dataObj = data.data; //返回的result为json格式的数据
                     var url = "";
                     var co = "";
                     $.each(dataObj, function (index, item) {
-                        co +=  '<a href="javascript:;" class="zc" data-content="' + item.bookcode + '">' + item.booktype + '</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
+                        co +=  '<a href="javascript:;" class="zc" id="' + item.bookcode + '">' + item.booktype + '</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
                     });
                     $("#fl").html(co);
                     layui.use('element', function () {
@@ -128,6 +128,7 @@
                     });
 
                     $(".zc").click(function () {
+
                         var form = layui.form,
                             layer = parent.layer === undefined ? layui.layer : top.layer,
                             $ = layui.jquery,
@@ -136,7 +137,7 @@
 
                         var tableIns = table.render({
                             elem: '#userList',
-                            url : 'http://localhost:80/yd/book/findBookWherekinds?kinds=' + $(this).attr("bookcode"),
+                            url : 'http://localhost:80/yd/book/findBookWherekinds?kinds=' + $(this).attr("id"),
                             cellMinWidth : 95,
                             page : true,
                             height : "full-125",
