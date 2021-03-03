@@ -19,14 +19,14 @@ public class BookdetailsController {
     @Autowired
     private BookdetailsService bookdetailsService;
 
-    @RequestMapping("bookdetailsList")
+    /*@RequestMapping("bookdetailsList")
     public JsonBean bookcategoryList() {
-        return null;
-    }
+        return bookdetailsService.selectAll();
+    }*/
 
     @RequestMapping("findBookObj")
-    public JsonBean finBookdetailsObj() {
-        return null;
+    public JsonBean finBookdetailsObj(int id) {
+        return bookdetailsService.selectByPrimaryKey(id);
     }
 
     @RequestMapping("findBookWhere")

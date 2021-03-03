@@ -1,5 +1,6 @@
 package com.example.book.service;
 
+import com.example.book.common.JsonBean;
 import com.example.book.domain.Bookdetails;
 public interface BookdetailsService{
 
@@ -10,10 +11,11 @@ public interface BookdetailsService{
 
     int insertSelective(Bookdetails record);
 
-    Bookdetails selectByPrimaryKey(Integer id);
+    JsonBean selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Bookdetails record);
 
     int updateByPrimaryKey(Bookdetails record);
 
+    //JsonBean selectAll();
 }

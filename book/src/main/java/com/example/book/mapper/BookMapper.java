@@ -26,4 +26,7 @@ public interface BookMapper {
     List<Book> selectPage();
 
     List<Book> selectWherekinds(String kinds);
+
+    List<Book> selectWhereSearch(String content);
+
 }

@@ -2,6 +2,9 @@ package com.example.book.domain;
 
 import java.util.Date;
 
+/**
+ * 图书详情
+ */
 public class Bookdetails {
     private Integer id;
 

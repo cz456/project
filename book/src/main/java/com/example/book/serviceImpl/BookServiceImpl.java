@@ -88,6 +88,11 @@ public class BookServiceImpl implements BookService {
         return new JsonBean(0,"",bookMapper.selectWherekinds(Kinds));
     }
 
+    @Override
+    public JsonBean selectWhereSearch(String content) {
+        return new JsonBean(0,"",bookMapper.selectWhereSearch(content));
+    }
+
     /**
      * 调用分页插件完成分页
      * @param

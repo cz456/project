@@ -27,4 +27,6 @@ public interface BookService {
     PageResult findPage(PageRequest pageRequest);
 
     JsonBean selectWherekinds(String Kinds);
+
+    JsonBean selectWhereSearch(String content);
 }

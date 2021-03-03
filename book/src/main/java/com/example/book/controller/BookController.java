@@ -56,7 +56,12 @@ public class BookController {
         return bookService.deleteByPrimaryKey(id);
     }
 
-    @RequestMapping(value="/findBookPage")
+    @RequestMapping("findBookWhereSearch")
+    public JsonBean findBookWhereSearch(String content) {
+        return bookService.selectWhereSearch(content);
+    }
+
+    @RequestMapping(value = "/findBookPage")
     public Object findPage(PageRequest pageQuery) {
 
         return bookService.findPage(pageQuery);

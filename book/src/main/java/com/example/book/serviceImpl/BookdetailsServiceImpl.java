@@ -1,5 +1,6 @@
 package com.example.book.serviceImpl;
 
+import com.example.book.common.JsonBean;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.book.mapper.BookdetailsMapper;
@@ -27,8 +28,8 @@ public class BookdetailsServiceImpl implements BookdetailsService{
     }
 
     @Override
-    public Bookdetails selectByPrimaryKey(Integer id) {
-        return bookdetailsMapper.selectByPrimaryKey(id);
+    public JsonBean selectByPrimaryKey(Integer id) {
+        return new JsonBean(0,"",bookdetailsMapper.selectByPrimaryKey(id)) ;
     }
 
     @Override
@@ -40,5 +41,6 @@ public class BookdetailsServiceImpl implements BookdetailsService{
     public int updateByPrimaryKey(Bookdetails record) {
         return bookdetailsMapper.updateByPrimaryKey(record);
     }
+
 
 }

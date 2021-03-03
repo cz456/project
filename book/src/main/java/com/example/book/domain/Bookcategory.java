@@ -1,5 +1,8 @@
 package com.example.book.domain;
 
+/**
+ * 图书分类
+ */
 public class Bookcategory {
     private Integer id;
 
