@@ -80,13 +80,15 @@
                     <div class="item-box layui-clear" id="g1">
                     </div>
                 </div>
-                <table id="userList" lay-filter="userList"></table>
+                <table id="userList" lay-filter="bookList"></table>
             </div>
         </div>
 
     </div>
 </div>
-
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">查看详情</a>
+</script>
 <script>
 
     layui.config({
@@ -100,10 +102,7 @@
         });
 
 
-        //getData1();
-        //selectData();
         selectData2();
-        //selectData3();
 
         $('#sa').click(function () {
             window.location.href="http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
@@ -146,202 +145,36 @@
                             id : "userListTable",
                             cols : [[
                                 {field: 'id', title: '编号', align:'center'},
-                                {field: 'url', title: '图片', align:'center' ,templet: '<div><img src="{{d.url}}" style="width:30px; height:30px;"></div>'},
-                                {field: 'bookname', title: '商品名字', align:'center'}
+                                {field: 'bookname', title: '图书名称', align:'center'},
+                                {field: 'author', title: '作者', align:'center'},
+                                {field: 'booknumber', title: '库存', align:'center'},
+                                {field: 'kinds', title: '种类', align:'center'},
+                                /* {field: 'url', title: '图片', align:'center' ,templet: '<div><img src="{{d.url}}" style="width:30px; height:30px;"></div>'},*/
+                                { fixed: 'right', title: '操作', width: 180, align: 'center', toolbar: '#barDemo' }
                             ]]
                         });
-
+                        table.on('tool(bookList)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                            var data = obj.data //获得当前行数据
+                                ,layEvent = obj.event; //获得 lay-event 对应的值
+                            if(layEvent === 'edit'){
+                                layer.msg(JSON.stringify(data));
+                            }
+                        });
                     });
                 }
 
 
             });
+
         }
-
-     /*   function getData1() {
-            layui.$.ajax({
-                type: "post",//请求格式
-                url: "http://localhost:80/main/users/getuserSession",//请求路径
-                dataType: "json",//后端返回的数据格式
-                success: function (data) {//请求到后端，后端返回的内容
+        //监听行工具事件
 
 
-                    /!* alert(data.data.name);*!/
-                    $("#dl").text(data.data.username + "：已登录");
-
-                }
-
-            })
-        }*/
-
-        function selectData() {
-            layui.$.ajax({
-                type: "post",//请求格式
-                url: "http://localhost:80/main/goods/selectGoods1",//请求路径
-                dataType: "json",//后端返回的数据格式
-                success: function (data) {//请求到后端，后端返回的内容
-
-                    var dataObj = data.data; //返回的result为json格式的数据
-                    var url = "";
-                    var co = "";
-                    $.each(dataObj, function (index, item) {
-
-                        co += '<div class="item">\n' +
-                            '               <img style="height: 290px; width: 290px" src=" ' + item.url + '" alt="">\n' +
-                            '                <div class="text-box">\n' +
-                            '                  <p class="title"><img style="height: 25px;width: 50px" src=" /img/s.jpg">'+'&nbsp' + item.goodsname + '</p>\n' +
-                            '                  <p class="plic">\n' +
-                            '                    <span class="ciur-pic" style="color: red">￥' + item.price + '</span>\n' +
-                            '                    <span class="Ori-pic">￥' + item.price * 2 + '</span>\n' +
-                            '                    <span class="discount">5折</span>\n' +
-
-                            '                  </p>\n' +
-                            '                    <button style=" margin-bottom:15px;float: left ;" class="zc layui-btn  layui-btn-radius" id=' + item.id + '>查看详情</button>' +
-                            '                </div>\n' +
-                            '              </div>';
-
-                    });
-
-                    $("#g1").html(co);
-
-                    /*$("#zxzxz").html(co);*/
-                    layui.use('element', function () {
-                        var element = layui.element;
-                        element.init();
-                    });
-
-                    $(".zc").click(function () {
-
-                    /*    alert($(this).attr("id"))*/
-
-                        console.log($(this).attr("id"))
-                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
-
-                    });
-
-                    /*form.on("#list-cont",function(data){
-                        //弹出loading
-                        alert("aa")
-
-                    })*/
-                }
 
 
-            });
-        }
-        /*function selectData2() {
-            layui.$.ajax({
-                type: "post",//请求格式
-                url: "http://localhost:80/main/goods/selectGoods2",//请求路径
-                dataType: "json",//后端返回的数据格式
-                success: function (data) {//请求到后端，后端返回的内容
-
-                    var dataObj = data.data; //返回的result为json格式的数据
-                    var url = "";
-                    var co = "";
-                    $.each(dataObj, function (index, item) {
-
-                        co += '<div class="item">\n' +
-                            '               <img style="height: 290px; width: 290px" src=" ' + item.url + '" alt="">\n' +
-                            '                <div class="text-box">\n' +
-                            '                  <p class="title">' + item.title + '</p>\n' +
-                            '                  <p class="plic">\n' +
-                            '                    <span class="ciur-pic">￥' + item.price + '</span>\n' +
-                            '                    <span class="Ori-pic">￥' + item.price * 2 + '</span>\n' +
-                            '                    <span class="discount">5折</span>\n' +
-
-                            '                  </p>\n' +
-                            '                    <button class="zc" id=' + item.id + '>查看详情</button>' +
-                            '                </div>\n' +
-                            '              </div>';
 
 
-                    });
-
-                    $("#g2").html(co);
-
-                    /!*$("#zxzxz").html(co);*!/
-                    layui.use('element', function () {
-                        var element = layui.element;
-                        element.init();
-                    });
-
-                    $(".zc").click(function () {
-
-                        /!*    alert($(this).attr("id"))*!/
-
-                        console.log($(this).attr("id"))
-                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
-
-                    });
-
-                    /!*form.on("#list-cont",function(data){
-                        //弹出loading
-                        alert("aa")
-
-                    })*!/
-                }
-
-
-            });
-        }*/
-        function selectData3() {
-            layui.$.ajax({
-                type: "post",//请求格式
-                url: "http://localhost:80/main/goods/selectGoods3",//请求路径
-                dataType: "json",//后端返回的数据格式
-                success: function (data) {//请求到后端，后端返回的内容
-
-                    var dataObj = data.data; //返回的result为json格式的数据
-                    var url = "";
-                    var co = "";
-                    $.each(dataObj, function (index, item) {
-
-                        co += '<div class="item">\n' +
-                            '               <img style="height: 290px; width: 290px" src=" ' + item.url + '" alt="">\n' +
-                            '                <div class="text-box">\n' +
-                            '                  <p class="title">' + item.title + '</p>\n' +
-                            '                  <p class="plic">\n' +
-                            '                    <span class="ciur-pic">￥' + item.price + '</span>\n' +
-                            '                    <span class="Ori-pic">￥' + item.price * 2 + '</span>\n' +
-                            '                    <span class="discount">5折</span>\n' +
-
-                            '                  </p>\n' +
-                            '                    <button class="zc" id=' + item.id + '>查看详情</button>' +
-                            '                </div>\n' +
-                            '              </div>';
-
-
-                    });
-
-                    $("#g3").html(co);
-
-                    /*$("#zxzxz").html(co);*/
-                    layui.use('element', function () {
-                        var element = layui.element;
-                        element.init();
-                    });
-
-                    $(".zc").click(function () {
-
-                        /*    alert($(this).attr("id"))*/
-
-                        console.log($(this).attr("id"))
-                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
-
-                    });
-
-                    /*form.on("#list-cont",function(data){
-                        //弹出loading
-                        alert("aa")
-
-                    })*/
-                }
-
-
-            });
-        }
-        $('body').on('click', '*[data-content]', function () {
+       /* $('body').on('click', '*[data-content]', function () {
             $(this).addClass('active').siblings().removeClass('active')
             var dataConte = $(this).attr('data-content');
             $('*[cont]').each(function (i, item) {
@@ -353,7 +186,7 @@
                     $(item).addClass('layui-hide');
                 }
             })
-        })
+        })*/
         // 模版引擎导入
         //  var html = demo.innerHTML;
         //  var listCont = document.getElementById('list-cont');

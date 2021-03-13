@@ -132,10 +132,10 @@
                 function getData1() {
                     layui.$.ajax({
                         type: "post",//请求格式
-                        url:"http://localhost:80/main/users/getuserSession",//请求路径
+                        url:"http://localhost:80/yd/index/getuserSession",//请求路径
                         dataType: "json",//后端返回的数据格式
                         success: function (data) {//请求到后端，后端返回的内容
-                            $("#dl").text(data.data.username + "：已登录");
+                            $("#dl").text(data.data.name + "：已登录");
                             selectData(data.data.id);
                         }
 
@@ -145,8 +145,8 @@
                 function selectData(userid) {
                     layui.$.ajax({
                         type: "post",//请求格式
-                        url: "http://localhost:80/main/goods/selectGoodCarByUserid",//请求路径
-                        data: {"userid": userid},
+                        url: "http://localhost:80/yd/bookdetails/findBookByPersonId",//请求路径
+                        data: {"personId": userid},
                         dataType: "json",//后端返回的数据格式
                         success: function (data) {//请求到后端，后端返回的内容
                             var dataObj = data.data; //返回的result为json格式的数据
@@ -164,9 +164,9 @@
                                     '            </li>' +
                                     '            <li class="th th-item">' +
                                     '              <div class="item-cont">' +
-                                    '                <a href="javascript:;"><img src="' + item.url + '"></a>' +
+
                                     '                <div class="text">' +
-                                    '                  <div class="title">' + item.title + '</div>' +
+                                    '                  <div class="title">' + item.name + '</div>' +
                                     '                  <p><span></span>  <span></span></p>' +
                                     '                </div>' +
                                     '              </div>' +

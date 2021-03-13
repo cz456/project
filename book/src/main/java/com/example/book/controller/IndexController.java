@@ -23,8 +23,7 @@ import java.io.IOException;
 public class IndexController {
 
 
-    /*@Autowired
-    private UsersService usersService;*/
+
     @Autowired
     private PersonService personService;
     /**
@@ -40,6 +39,7 @@ public class IndexController {
         JsonBean jsonBean = new JsonBean(0, "ok", person);
         return jsonBean;
     }
+
     @ResponseBody
     @RequestMapping("registered")
     public JsonBean insertSysUser(Person person) {
@@ -63,7 +63,7 @@ public class IndexController {
         String sessioncode = (String) session.getAttribute("pnum");
         JsonBean jsonBean = personService.selectPerson(loginnumber, password,sessioncode,pnum,role);
         if (jsonBean.getCode() == 0) {
-            session.setAttribute("Users", jsonBean.getData());
+            session.setAttribute("Person", jsonBean.getData());
             /*jsonBean.setData(null);*/
         }
         return jsonBean;
