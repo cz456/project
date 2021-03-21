@@ -18,4 +18,7 @@ public interface BookdetailsService{
     int updateByPrimaryKey(Bookdetails record);
 
     //JsonBean selectAll();
+    JsonBean insertBook(Bookdetails record);
+
+    JsonBean selectByPid(Integer pid);
 }

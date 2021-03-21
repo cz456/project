@@ -4,6 +4,8 @@ import com.example.book.domain.Bookdetails;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface BookdetailsMapper {
@@ -18,4 +20,8 @@ public interface BookdetailsMapper {
     int updateByPrimaryKeySelective(Bookdetails record);
 
     int updateByPrimaryKey(Bookdetails record);
+
+    int insertBook(Bookdetails record);
+
+   List<Bookdetails>  selectByPid(Integer pid);
 }

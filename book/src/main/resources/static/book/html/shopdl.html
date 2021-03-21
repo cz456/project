@@ -117,35 +117,36 @@
 
             </div>
         </div>
-
+    </div>
+</div>
         <script type="text/javascript">
             layui.config({
                 base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
             }).use(['mm', 'jquery', 'element', 'car'], function () {
                 getData1();
                 var mm = layui.mm, $ = layui.$, element = layui.element, car = layui.car;
-                $('#sa').click(function () {
+                /*$('#sa').click(function () {
                     window.location.href="http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
 
-                })
+                })*/
                 function getData1() {
                     layui.$.ajax({
                         type: "post",//请求格式
-                        url:"http://localhost:80/main/users/getuserSession",//请求路径
+                        url:"http://localhost:80/yd/index/getuserSession",//请求路径
                         dataType: "json",//后端返回的数据格式
                         success: function (data) {//请求到后端，后端返回的内容
-                            $("#dl").text(data.data.username + "：已登录");
+                            $("#dl").text(data.data.name + "：已登录");
                             selectData(data.data.id);
                         }
 
                     })
                 }
 
-                function selectData(userid) {
+                function selectData(personId) {
                     layui.$.ajax({
                         type: "post",//请求格式
-                        url: "http://localhost:80/main/goods/getGoodsdlList",//请求路径
-                        data: {"uid": userid},
+                        url: "http://localhost:80/yd/bookdetails/findBookByPersonId",//请求路径
+                        data: {"personId": personId},
                         dataType: "json",//后端返回的数据格式
                         success: function (data) {//请求到后端，后端返回的内容
                             var dataObj = data.data; //返回的result为json格式的数据
@@ -207,7 +208,6 @@
                 };
 
 
-                car.init()
             });
         </script>
 </body>

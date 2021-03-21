@@ -9,6 +9,14 @@
     <result column="bookDate" jdbcType="TIMESTAMP" property="bookdate" />
     <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
+ <!-- <resultMap id="BaseResultMap2" type="com.example.book.domain.Bookdetails2">
+    &lt;!&ndash;@mbg.generated&ndash;&gt;
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="author" jdbcType="VARCHAR" property="author"/>
+    <result column="bookDate" jdbcType="TIMESTAMP" property="bookdate" />
+    <result column="bookName" jdbcType="VARCHAR" property="bookname"/>
+    <result column="borrowTime" jdbcType="BORROWTIME" property="borrowTime" />
+  </resultMap>-->
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, bookId, personId, bookDate, `state`
@@ -27,9 +35,9 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.book.domain.Bookdetails" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into bookdetails (bookId, personId, bookDate, 
+    insert into bookdetails (bookId, personId, bookDate,
       `state`)
-    values (#{bookid,jdbcType=INTEGER}, #{personid,jdbcType=INTEGER}, #{bookdate,jdbcType=TIMESTAMP}, 
+    values (#{bookid,jdbcType=INTEGER}, #{personid,jdbcType=INTEGER}, #{bookdate,jdbcType=TIMESTAMP},
       #{state,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.book.domain.Bookdetails" useGeneratedKeys="true">
@@ -92,4 +100,21 @@
       `state` = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertBook" keyColumn="id" keyProperty="id" parameterType="com.example.book.domain.Bookdetails" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into bookdetails (bookId, personId, bookDate,borrowTime,
+    `state`)
+    values (#{bookid,jdbcType=INTEGER}, #{personid,jdbcType=INTEGER}, #{bookdate,jdbcType=TIMESTAMP},#{borrowTime,jdbcType=TIMESTAMP},
+    #{state,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectByPid"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    a.id,b.bookName,b.author,a.bookDate, a.borrowTime
+    from bookdetails a
+    left join book b
+    on a.bookId=b.id
+    where personId = #{pid,jdbcType=INTEGER}
+  </select>
 </mapper>

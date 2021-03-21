@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>详情</title>
+    <title>图书分类</title>
     <link rel="stylesheet" type="text/css" href="../res/static/css/main.css">
     <link rel="stylesheet" type="text/css" href="../res/layui/css/layui.css">
     <script type="text/javascript" src="../res/layui/layui.js"></script>
@@ -57,10 +57,10 @@
             <div class="inner-cont0">
                 <div class="inner-cont1 w1200">
                     <div class="inner-cont2">
-                        <a href="commodity.html">所有商品</a>
-                        <a href="buytoday.html" class="active">商品分类</a>
-                        <a href="information.html">水果资讯</a>
-                        <a href="about.html">关于我们</a>
+                        <a href="commodity.html">所有图书</a>
+                        <a href="buytoday.html" class="active">图书分类</a>
+                        <a href="information.html">借书单</a>
+                        <a href="about.html">图书资讯</a>
                     </div>
                 </div>
             </div>
@@ -157,7 +157,9 @@
                             var data = obj.data //获得当前行数据
                                 ,layEvent = obj.event; //获得 lay-event 对应的值
                             if(layEvent === 'edit'){
-                                layer.msg(JSON.stringify(data));
+//跳转详情页//跳转详情页
+                                window.location.href="details.html?id="+data.id;
+
                             }
                         });
                     });

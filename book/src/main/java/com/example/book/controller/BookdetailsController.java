@@ -42,12 +42,12 @@ public class BookdetailsController {
     @RequestMapping("addBookdetailsObj")
     public JsonBean addBookObj(Bookdetails bookdetails) {
         System.out.println(bookdetails.getBookid()+""+bookdetails.getPersonid()+""+new Date());
-        return new JsonBean(0,"",null);
+        return bookdetailsService.insertBook(bookdetails);
     }
     //查询图书单,返回图书信息
     @RequestMapping("findBookByPersonId")
     public JsonBean findBookByPersonId(int personId) {
         System.out.println(personId);
-        return bookdetailsService.selectByPrimaryKey(1);
+        return bookdetailsService.selectByPid(1);
     }
 }
