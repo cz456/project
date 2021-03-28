@@ -8,9 +8,24 @@
     <script type="text/javascript" src="../res/layui/layui.js"></script>
     <script type="text/javascript" src="../res/layui/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../res/layui/jquery.params.js"></script>
+    <script type="text/javascript" src="../res/static/js/util/car.js"></script>
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <style>
+        .box-btn {
+        }
+        .btn {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+        .input {
+            width: 50px;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -23,7 +38,7 @@
         <div class="sn-quick-menu">
             <div class="login"><span id="dl">登录</span><span id="uid" class="uid"></span></div>
             <div class="sp-cart"><a href="shopcart.html">购物车</a></div>
-            <div class="sp-cart">&nbsp;&nbsp;<a href="shopdl.html" >我的订单</a></div>
+            <div class="sp-cart">&nbsp;&nbsp;<a href="shopdl.html">我的订单</a></div>
         </div>
     </div>
 </div>
@@ -37,11 +52,12 @@
                     <img style="height: 60px ;width: 90px" src="../res/static/img/sgxs.jpg">
                 </a>
             </h1>
-            <div class="mallSearch" >
-                <div action="" >
-                    <input type="text"  style="border-style: solid;border-color:#5FB878; " id="ss" required lay-verify="required"
+            <div class="mallSearch">
+                <div action="">
+                    <input type="text" style="border-style: solid;border-color:#5FB878; " id="ss" required
+                           lay-verify="required"
                            class="layui-input" placeholder="请输入需要的商品">
-                    <button  id="sa" class="layui-btn" lay-filter="formDemo" >
+                    <button id="sa" class="layui-btn" lay-filter="formDemo">
                         <i class="layui-icon layui-icon-search"></i>
                     </button>
 
@@ -90,7 +106,24 @@
                         <p class="address-box"><span>图书编号:</span><span id="id"></span></p>
                         <p class="reference"><span>介绍 </span><span id="introduction"></span></p>
                         <p class="activity"><span>每月租金:</span><span id="rent"></span></p>
-                        <p class="activity"><span>借书时间:30天</span></p>
+                        <p class="activity"><span>借书时间:
+                            <div class="box-btn layui-clear">
+                                <button class="lessDay btn">-</button>
+<!--                            <div class="lessDay btn">-</div>-->
+                            <input class="time-input input" id="aa" type="number" name="" value="1"
+                                   disabled="disabled">
+<!--                            <div class="addDay btn">+</div>-->
+                                <button class="addDay btn">+</button>天
+                        </div></span>
+
+                        </p>
+                        <div class="box-btn layui-clear">
+                            <button class="less btn">-</button>
+                            <input class="Quantity-input input" type="number" name="" value="40"
+                                   disabled="disabled">
+                            <button class="add btn">+</button>
+                        </div>
+
                     </div>
 
                     <!--<div class="choose-attrs">
@@ -103,7 +136,7 @@
                         </div>
                     </div>-->
                     <div class="choose-btns">
-                      <!--  <button class="layui-btn layui-btn-primary purchase-btn">立刻购买</button>-->
+                        <!--  <button class="layui-btn layui-btn-primary purchase-btn">立刻购买</button>-->
                         <button class="layui-btn  layui-btn-danger car-btn" id="zc"><i
                                 class="layui-icon layui-icon-cart-simple"></i>租借此书
                         </button>
@@ -114,43 +147,69 @@
         </div>
 
 
-
-
-
     </div>
-   <!-- <div class="commod-cont-wrap content content-nav-base commodity-content">
-        <div class="commod-cont w1200 layui-clear">
+    <!-- <div class="commod-cont-wrap content content-nav-base commodity-content">
+         <div class="commod-cont w1200 layui-clear">
 
-            <div class="right-cont-wrap" style="width: 1241px">
-                <div style="height: 70px;text-align: center" >
-                    <h2 style="color: red">热销商品</h2>
+             <div class="right-cont-wrap" style="width: 1241px">
+                 <div style="height: 70px;text-align: center" >
+                     <h2 style="color: red">热销商品</h2>
 
-                </div>
-                <div class="right-cont">
+                 </div>
+                 <div class="right-cont">
 
-                    <div class="prod-number">
-                    </div>
-                    <div class="cont-list layui-clear" id="list-cont">
-                    </div>
+                     <div class="prod-number">
+                     </div>
+                     <div class="cont-list layui-clear" id="list-cont">
+                     </div>
 
-                </div>
-            </div>
-        </div>
-    </div>-->
+                 </div>
+             </div>
+         </div>
+     </div>-->
 </div>
 <script type="text/javascript">
     layui.config({
         base: '../res/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
-    }).use(['mm', 'jquery'], function () {
-        var mm = layui.mm, $ = layui.$;
+    }).use(['mm', 'jquery',"car"], function () {
+        var mm = layui.mm, $ = layui.$ , car = layui.car;
         var cur = $('.number-cont input').val();
+        var kuCun = $("#booknumber").html
+       // var bookNum =document.getElementsByClassName('Quantity-input')[0].value
 
         selectData();
         //selectData2();
         $('#sa').click(function () {
-            window.location.href="http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
+            window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/sou.html?goodscname=" + $("#ss").val();
 
         })
+        ///数量
+        $('.less').click(function () {
+            //console.log(bookNum)
+            var bookNum =document.getElementsByClassName('Quantity-input')[0].value
+            if ( bookNum > 1) {
+                bookNum--;
+            }
+        })
+        $('.add').click(function () {
+           // console.log(kuCun)
+            var bookNum =document.getElementsByClassName('Quantity-input')[0].value
+            if (  bookNum < kuCun)
+                bookNum++;
+            document.getElementsByClassName('Quantity-input')[0].value
+        })
+        //天数
+        $('.lessDay').click(function () {
+            if ( document.getElementsByClassName('time-input')[0].value > 1) {
+                document.getElementsByClassName('time-input')[0].value--;
+            }
+        })
+        $('.addDay').click(function () {
+            console.log(kuCun)
+            if ( document.getElementsByClassName('time-input')[0].value < 30)
+                document.getElementsByClassName('time-input')[0].value++;
+        })
+
         /*8888888888888888888888888888888888888888888888888888888888*/
         function getData1() {
             layui.$.ajax({
@@ -181,6 +240,7 @@
                     $("#introduction").html(data.data.introduction)
                     $("#author").html(data.data.author)
                     $("#rent").html(data.data.rent);
+                    kuCun = data.data.booknumber
                     console.log(data.data)
                     layui.use('element', function () {
                         var element = layui.element;
@@ -197,10 +257,12 @@
         $("#zc").click(function () {
             var massid = document.getElementById("id").innerHTML
             var su = $('.number-cont input').val();
-            //alert($("#uid").text())
+           var a=document.getElementById("aa")
+           // alert(a.value)
+            alert(bookNum)
             layui.$.ajax({
                 type: "post",//请求格式
-                data: {"bookid": massid, "personid":$("#uid").text() },
+                data: {"bookid": massid, "personid": $("#uid").text()},
                 url: "http://localhost:80/yd/bookdetails/addBookdetailsObj",//请求路径
                 dataType: "json",//后端返回的数据格式
                 success: function (data) {
@@ -212,6 +274,7 @@
             })
 
         });
+
         function selectData2() {
             layui.$.ajax({
                 type: "post",//请求格式
@@ -228,7 +291,7 @@
                             '                                <a href="javascript:;"><img style="height: 260px; width: 281px" id="url" src="' + item.url + '"></a>' +
                             '                                </div>' +
                             '                                <div class="text">' +
-                            '                                <p class="title" id="title"><img style="height: 25px;width: 50px" src=" /img/s.jpg">'+'&nbsp '+ item.goodsname + '</p>' +
+                            '                                <p class="title" id="title"><img style="height: 25px;width: 50px" src=" /img/s.jpg">' + '&nbsp ' + item.goodsname + '</p>' +
                             '                                <p class="price">' +
                             '                                <span class="pri" id="price" style="font-size: large">￥' + item.price + '</span>' +
                             '                                <span >元/500kg</span>' +
@@ -249,10 +312,10 @@
                         element.init();
                     });
 
-                  /*  $(".zc").click(function () {
-                        window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
+                    /*  $(".zc").click(function () {
+                          window.location.href = "http://localhost:80/main/layuiMaternalBabyMall-v1.0.0/html/details.html?id=" + $(this).attr("id");
 
-                    });*/
+                      });*/
 
 
                 }
